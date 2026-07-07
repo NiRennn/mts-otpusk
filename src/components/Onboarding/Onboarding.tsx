@@ -1,21 +1,26 @@
 import "./Onboarding.scss";
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import top from "../../assets/icons/load-top.svg";
 import mtsLogo from "../../assets/icons/mts-logo.svg";
 import ob from "../../assets/images/ob.png";
 import sub from "../../assets/images/sub.png";
-import cross from '../../assets/icons/cross.svg'
+import cross from "../../assets/icons/cross.svg";
 
 import Button from "../Button/Button";
 import { useAppStore } from "../../store/appStore";
 import { checkUserSubscription } from "../../api/subscription";
+import { acceptRules } from "../../api/rules";
 import appRoutes from "../../routes/routes";
 
 type OnboardingStep = 0 | 1;
 type CheckStatus = "idle" | "checking" | "not-found";
+
+type OnboardingLocationState = {
+  initialStep?: OnboardingStep;
+};
 
 const CHANNEL_URL = "https://t.me/+X_Y-xncYDCAzZTJi";
 
@@ -36,15 +41,50 @@ const onboardingSteps = [
 
 function Onboarding() {
   const navigate = useNavigate();
+  const location = useLocation();
   const user = useAppStore((state) => state.user);
 
-  const [step, setStep] = useState<OnboardingStep>(0);
+  const [isAcceptingRules, setIsAcceptingRules] = useState(false);
+
+  const locationState = location.state as OnboardingLocationState | null;
+
+  const getInitialStep = (): OnboardingStep => {
+    if (locationState?.initialStep === 1) {
+      return 1;
+    }
+
+    if (user?.rule && !user?.subs) {
+      return 1;
+    }
+
+    return 0;
+  };
+
+  const [step, setStep] = useState<OnboardingStep>(() => getInitialStep());
   const [checkStatus, setCheckStatus] = useState<CheckStatus>("idle");
 
   const currentStep = onboardingSteps[step];
 
-  const handleContinue = () => {
-    setStep(1);
+  const handleContinue = async () => {
+    if (!user?.user_id) {
+      console.error("user_id not found");
+      return;
+    }
+
+    setIsAcceptingRules(true);
+
+    try {
+      const result = await acceptRules(user.user_id);
+
+      if (!result.success || !result.rule) {
+        console.error("Rules were not accepted:", result);
+        return;
+      }
+
+      setStep(1);
+    } catch (error) {
+      console.error("Error accepting rules:", error);
+    }
   };
 
   const handleOpenChannel = () => {
@@ -110,8 +150,12 @@ function Onboarding() {
             <p className="bot_panel_subtitle">{currentStep.subtitle}</p>
 
             {step === 0 && (
-              <Button variant="primary" onClick={handleContinue}>
-                Продолжить!
+              <Button
+                variant="primary"
+                onClick={handleContinue}
+                disabled={isAcceptingRules}
+              >
+                {isAcceptingRules ? "Загрузка..." : "Продолжить!"}
               </Button>
             )}
 
@@ -153,10 +197,9 @@ function Onboarding() {
 
           {checkStatus === "not-found" && (
             <div className="onboarding__notfound">
-                <img src={cross} alt="" className="onboarding__notfound_cross"/>
+              <img src={cross} alt="" className="onboarding__notfound_cross" />
 
               <div className="onboarding__notfound_card">
-
                 <p className="onboarding__notfound_title">
                   Подписка
                   <br />

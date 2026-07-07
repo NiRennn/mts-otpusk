@@ -11,6 +11,35 @@ export type UserDto = {
   created_at: string;
 };
 
+export type WinnerDto = {
+  place: number;
+  prize: string;
+  user_id: number;
+  username: string | null;
+  first_name: string | null;
+};
+
+export type ResultDto = {
+  genre: string;
+  genre_display: string;
+  text: string;
+  image: string | null;
+};
+
+export type AnswerDto = {
+  id: number;
+  text: string;
+  logo: string | null;
+};
+
+export type QuestionDto = {
+  id: number;
+  text: string;
+  image: string | null;
+  order: number;
+  answers: AnswerDto[];
+};
+
 export type LocationProgressDto = {
   location: string;
   is_success: boolean;
@@ -19,35 +48,50 @@ export type LocationProgressDto = {
 
 export type GetUserDataResponse = {
   user: UserDto | null;
-  locations?: LocationProgressDto[];
   winners?: WinnerDto[];
+  last_result?: ResultDto | null;
+
+  /**
+   * Оставлено для обратной совместимости, если старый бэк/эндпоинт
+   * где-то ещё возвращает locations.
+   */
+  locations?: LocationProgressDto[];
 };
 
-export type AnswerDto = {
-  id: number;
-  text: string;
-};
+export type GetQuestionsResponse = QuestionDto[];
 
-export type WinnerDto = {
+export type SubmitAnswersPayload = {
   user_id: number;
-  username: string | null;
-  first_name: string | null;
+  answers: number[];
 };
 
-type AppState = {
+export type SubmitAnswersResponse = ResultDto;
+
+type AppStateData = {
   user: UserDto | null;
   locations: LocationProgressDto[];
   winners: WinnerDto[];
+  questions: QuestionDto[];
+
+  lastResult: ResultDto | null;
+  finalResponse: ResultDto | null;
+
   isHydrated: boolean;
-
   selectedAnswersByQuestion: Record<number, number>;
+};
 
+type AppStateActions = {
   setUser: (user: UserDto | null) => void;
   setUserSubs: (subs: boolean) => void;
   setUserRule: (rule: boolean) => void;
 
   setLocations: (locations: LocationProgressDto[]) => void;
   setWinners: (winners: WinnerDto[]) => void;
+  setQuestions: (questions: QuestionDto[]) => void;
+
+  setLastResult: (result: ResultDto | null) => void;
+  setFinalResponse: (result: ResultDto | null) => void;
+
   upsertLocationProgress: (location: string, isSuccess: boolean) => void;
 
   hydrateFromServer: (data: GetUserDataResponse) => void;
@@ -58,20 +102,28 @@ type AppState = {
   reset: () => void;
 };
 
-const initialState = {
+type AppState = AppStateData & AppStateActions;
+
+const initialState: AppStateData = {
   user: null,
   locations: [],
-  questions: [],
   winners: [],
+  questions: [],
+
+  lastResult: null,
+  finalResponse: null,
+
   isHydrated: false,
   selectedAnswersByQuestion: {},
-  finalResponse: null,
 };
 
 export const useAppStore = create<AppState>((set) => ({
   ...initialState,
 
-  setUser: (user) => set({ user }),
+  setUser: (user) =>
+    set({
+      user,
+    }),
 
   setUserSubs: (subs) =>
     set((state) => ({
@@ -101,6 +153,22 @@ export const useAppStore = create<AppState>((set) => ({
   setWinners: (winners) =>
     set({
       winners,
+    }),
+
+  setQuestions: (questions) =>
+    set({
+      questions,
+    }),
+
+  setLastResult: (result) =>
+    set({
+      lastResult: result,
+    }),
+
+  setFinalResponse: (result) =>
+    set({
+      finalResponse: result,
+      lastResult: result,
     }),
 
   upsertLocationProgress: (location, isSuccess) =>
@@ -140,6 +208,8 @@ export const useAppStore = create<AppState>((set) => ({
       user: data.user ?? null,
       locations: Array.isArray(data.locations) ? data.locations : [],
       winners: Array.isArray(data.winners) ? data.winners : [],
+      lastResult: data.last_result ?? null,
+      finalResponse: data.last_result ?? null,
       isHydrated: true,
       selectedAnswersByQuestion: {},
     }),
@@ -155,6 +225,7 @@ export const useAppStore = create<AppState>((set) => ({
   resetTestProgress: () =>
     set({
       selectedAnswersByQuestion: {},
+      finalResponse: null,
     }),
 
   reset: () => set(initialState),

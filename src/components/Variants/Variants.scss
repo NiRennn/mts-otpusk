@@ -40,6 +40,15 @@
 }
 
 .variants__answer {
+  border: none;
+  padding: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  background: transparent;
+}
+
+.variants__answer {
   background-color: #ffffffbd;
   border: 1px solid #ffffff2b;
   border-radius: 25px;

@@ -1,11 +1,45 @@
 import "./End.scss";
+
 import top from "../../assets/icons/load-top.svg";
 import mtsLogo from "../../assets/icons/mts-logo.svg";
 import pres from "../../assets/icons/st-3.png";
 import win from "../../assets/icons/win.svg";
+import wingray from "../../assets/icons/win-gray.svg";
+
 import Button from "../Button/Button";
+import { useAppStore } from "../../store/appStore";
 
 function End() {
+  const user = useAppStore((state) => state.user);
+  const winners = useAppStore((state) => state.winners);
+
+  const sortedWinners = [...winners].sort((a, b) => a.place - b.place);
+
+  const handleWinnerClick = () => {
+    const tg = (window as any)?.Telegram?.WebApp;
+    const vkUrl = "https://vk.com/mts";
+
+    if (tg?.openLink) {
+      tg.openLink(vkUrl);
+      return;
+    }
+
+    window.open(vkUrl, "_blank", "noopener,noreferrer");
+  };
+
+  const getWinnerUsername = (winner: (typeof winners)[number]) => {
+    if (winner.username) {
+      return `@${winner.username}`;
+    }
+
+    if (winner.first_name) {
+      return winner.first_name;
+    }
+
+    return `ID ${winner.user_id}`;
+  };
+
+
   return (
     <div className="end">
       <div className="end__content">
@@ -26,56 +60,57 @@ function End() {
             за&nbsp;участие!
           </p>
           <div className="end__content_mid_btn">
-            <Button variant="primary">Я победитель!</Button>
+            <Button variant="primary" onClick={handleWinnerClick}>Я победитель!</Button>
           </div>
         </div>
-        <div className="end__content_bot_y">
+         <div className="end__content_bot_y">
           <div className="end__content_bot">
             <div className="end__content_bot_list">
-              <div className="list_item">
-                <div className="list_item_place">1</div>
-                <div className="list_item_content">
-                  <p className="list_item_username">@username</p>
+              {sortedWinners.map((winnerItem) => {
+                const isCurrentUserWinner =
+                  user?.user_id === winnerItem.user_id;
 
-                  <div className="list_item_wrap">
-                    <img src={win} alt="" className="list_item_prize" />
-                    <p className="list_item_label">Название приза</p>
-                  </div>
-                </div>
-              </div>
-              <div className="list_item">
-                <div className="list_item_place">1</div>
-                <div className="list_item_content">
-                  <p className="list_item_username">@username</p>
+                return (
+                  <div
+                    key={`${winnerItem.place}-${winnerItem.user_id}`}
+                    className={`list_item ${
+                      isCurrentUserWinner ? "list_item--current-user" : ""
+                    }`}
+                  >
+                    <div
+                      className={`list_item_place ${
+                        isCurrentUserWinner
+                          ? "list_item_place--current-user"
+                          : ""
+                      }`}
+                    >
+                      {winnerItem.place}
+                    </div>
 
-                  <div className="list_item_wrap">
-                    <img src={win} alt="" className="list_item_prize" />
-                    <p className="list_item_label">Название приза</p>
-                  </div>
-                </div>
-              </div>
-              <div className="list_item">
-                <div className="list_item_place">1</div>
-                <div className="list_item_content">
-                  <p className="list_item_username">@username</p>
+                    <div className="list_item_content">
+                      <p className="list_item_username">
+                        {getWinnerUsername(winnerItem)}
+                      </p>
 
-                  <div className="list_item_wrap">
-                    <img src={win} alt="" className="list_item_prize" />
-                    <p className="list_item_label">Название приза</p>
-                  </div>
-                </div>
-              </div>
-              <div className="list_item">
-                <div className="list_item_place">1</div>
-                <div className="list_item_content">
-                  <p className="list_item_username">@username</p>
+                      <div className="list_item_wrap">
+                        <img
+                          src={isCurrentUserWinner ? win : wingray}
+                          alt=""
+                          className="list_item_prize"
+                        />
 
-                  <div className="list_item_wrap">
-                    <img src={win} alt="" className="list_item_prize" />
-                    <p className="list_item_label">Название приза</p>
+                        <p className="list_item_label">{winnerItem.prize}</p>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
+                );
+              })}
+
+              {!sortedWinners.length && (
+                <p className="end__content_bot_empty">
+                  Победители пока не найдены
+                </p>
+              )}
             </div>
           </div>
         </div>

@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { fetchAndHydrateUserData } from "../../api/userData";
 import top from "../../assets/icons/load-top.svg";
 import mtsLogo from "../../assets/icons/mts-logo.svg";
-import back from '../../assets/images/load-img.png'
+import back from "../../assets/images/load-img.png";
 import Loader from "../Loader/Loader";
-import type { UserDto } from "../../store/appStore";
+import type { GetUserDataResponse } from "../../store/appStore";
 import { preloadImageSrcs } from "../../utils/preload";
 import { APP_PRELOAD_IMAGES } from "../../data/preloadImages";
 
@@ -26,20 +26,53 @@ const delay = (ms: number) =>
 function Loading() {
   const navigate = useNavigate();
 
-  const pickNextRoute = (user: UserDto | null, winners?: unknown[]) => {
-    if (Array.isArray(winners) && winners.length > 0) {
-      return appRoutes.MENU;
+  type OnboardingInitialStep = 0 | 1;
+
+  type NextRoute = {
+    to: string;
+    state?: {
+      initialStep?: OnboardingInitialStep;
+    };
+  };
+
+  const pickNextRoute = (data: GetUserDataResponse): NextRoute => {
+    const user = data.user;
+    const hasWinners = Array.isArray(data.winners) && data.winners.length > 0;
+    const hasLastResult = Boolean(data.last_result);
+
+    if (hasWinners) {
+      return {
+        to: appRoutes.END,
+      };
+    }
+
+    if (user?.rule && user?.subs && hasLastResult) {
+      return {
+        to: appRoutes.FINAL,
+      };
     }
 
     if (user?.rule && user?.subs) {
-      return appRoutes.MENU;
+      return {
+        to: appRoutes.MENU,
+      };
     }
 
-    if (user?.rule) {
-      return appRoutes.SUB;
+    if (user?.rule && !user?.subs) {
+      return {
+        to: appRoutes.ONBOARDING,
+        state: {
+          initialStep: 1,
+        },
+      };
     }
 
-    return appRoutes.ONBOARDING;
+    return {
+      to: appRoutes.ONBOARDING,
+      state: {
+        initialStep: 0,
+      },
+    };
   };
   // const tg = (window as any)?.Telegram?.WebApp;
 
@@ -50,11 +83,11 @@ function Loading() {
     const tg = (window as any)?.Telegram?.WebApp;
     tg?.ready?.();
 
-    const go = (to: string) => {
+    const go = (to: string, state?: { initialStep?: 0 | 1 }) => {
       if (navigated || cancelled) return;
 
       navigated = true;
-      navigate(to, { replace: true });
+      navigate(to, { replace: true, state });
     };
 
     const effectiveUserId = getEffectiveUserId();
@@ -65,7 +98,6 @@ function Loading() {
 
     const initData = getTelegramInitData();
 
-
     if (!effectiveUserId) {
       console.error("effectiveUserId not found");
       return;
@@ -74,8 +106,8 @@ function Loading() {
       console.error("Telegram initData is empty");
       return;
     }
-    
-    console.log(initData)
+
+    console.log(initData);
 
     try {
       const platform: string | undefined = tg?.platform;
@@ -153,7 +185,9 @@ function Loading() {
         return;
       }
 
-      go(pickNextRoute(userData.user, userData.winners));
+      const nextRoute = pickNextRoute(userData);
+
+      go(nextRoute.to, nextRoute.state);
     };
 
     init();
@@ -169,7 +203,7 @@ function Loading() {
           <img src={mtsLogo} alt="" className="loading__logo" />
           <img src={top} alt="" className="loading__top" />
         </div>
-        <img src={back} alt=""  className="loading__back"/>
+        <img src={back} alt="" className="loading__back" />
 
         <Loader />
       </div>

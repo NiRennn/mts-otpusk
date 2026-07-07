@@ -4,44 +4,52 @@ import an1 from "../../assets/icons/an1.png";
 import an2 from "../../assets/icons/an2.png";
 import an3 from "../../assets/icons/an3.png";
 
+import type { QuestionDto } from "../../store/appStore";
+
 type VariantsProps = {
-  currentQuestionIndex: number;
-  setCurrentQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
+  question: QuestionDto;
+  selectedAnswerId?: number;
+  onAnswerClick: (answerId: number) => void;
+  disabled?: boolean;
 };
 
+const fallbackAnswerImages = [an1, an2, an3];
+
 function Variants({
-  // currentQuestionIndex,
-  // setCurrentQuestionIndex,
+  question,
+  selectedAnswerId,
+  onAnswerClick,
+  disabled = false,
 }: VariantsProps) {
-  // const handleAnswerClick = () => {
-  //   setCurrentQuestionIndex((prev) => prev + 1);
-  // };
   return (
     <div className="variants__container">
       <div className="variants">
-        <h1 className="variants__question">
-          Ты приехал в европейский город и хочешь провести свидание на мопеде.
-          Как поступишь?
-        </h1>
+        <h1 className="variants__question">{question.text}</h1>
+
         <div className="variants__answers">
-          <div className="variants__answer">
-            <img src={an1} alt="" className="variants__answer_img" />
-            <span className="variants__answer_text">
-              Прокачусь на полной скорости по серпантину
-            </span>
-          </div>
-          <div className="variants__answer">
-            <img src={an2} alt="" className="variants__answer_img" />
-            <span className="variants__answer_text">
-              По картам, найду тихий берег без туристов
-            </span>
-          </div>
-          <div className="variants__answer">
-            <img src={an3} alt="" className="variants__answer_img" />
-            <span className="variants__answer_text">
-              Выясню где спрятан лучший маршрут для двоих
-            </span>
-          </div>
+          {question.answers.map((answer, index) => {
+            const imageSrc =
+              answer.logo ??
+              fallbackAnswerImages[index % fallbackAnswerImages.length];
+
+            const isSelected = selectedAnswerId === answer.id;
+
+            return (
+              <button
+                key={answer.id}
+                type="button"
+                className={`variants__answer ${
+                  isSelected ? "variants__answer--selected" : ""
+                }`}
+                onClick={() => onAnswerClick(answer.id)}
+                disabled={disabled}
+              >
+                <img src={imageSrc} alt="" className="variants__answer_img" />
+
+                <span className="variants__answer_text">{answer.text}</span>
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>

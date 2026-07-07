@@ -15,7 +15,6 @@ import p3 from "../../assets/images/p-iphone.jpg";
 import pmain from "../../assets/images/p-main.jpg";
 
 import st1 from "../../assets/icons/st-1.png";
-// import st2 from '../../assets/icons/st-2.png'
 import st2 from "../../assets/images/ob.png";
 import st3 from "../../assets/icons/st-3.png";
 

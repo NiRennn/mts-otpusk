@@ -1,23 +1,43 @@
 import "./Menu.scss";
 
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import top from "../../assets/icons/load-top.svg";
 import mtsLogo from "../../assets/icons/mts-logo.svg";
-import Button from "../Button/Button";
-// import pres from "../../assets/icons/st-3.png";
 
-import { useNavigate } from "react-router-dom";
+import Button from "../Button/Button";
 import appRoutes from "../../routes/routes";
+import { getQuestions } from "../../api/questions";
 
 const CHANNEL_URL = "https://t.me/+X_Y-xncYDCAzZTJi";
+const QUESTIONS_LIMIT = 3;
 
 function Menu() {
   const navigate = useNavigate();
 
+  const [isQuestionsLoading, setIsQuestionsLoading] = useState(false);
+
   const handleGoToInfo = () => {
     navigate(appRoutes.INFO);
   };
-  const handleGoToGame = () => {
-    navigate(appRoutes.GAME);
+  const handleGoToGame = async () => {
+    setIsQuestionsLoading(true);
+
+    try {
+      const questions = await getQuestions(QUESTIONS_LIMIT);
+
+      if (!questions.length) {
+        console.error("Questions list is empty");
+        return;
+      }
+
+      navigate(appRoutes.GAME);
+    } catch (error) {
+      console.error("Error fetching questions:", error);
+    } finally {
+      setIsQuestionsLoading(false);
+    }
   };
 
   const handleOpenRoaming = () => {
@@ -40,8 +60,12 @@ function Menu() {
         </div>
         <div className="menu__content_bottom">
           <div className="menu__content_bottom_buttons">
-            <Button variant="primary" onClick={handleGoToGame}>
-              Начать&nbsp;игру
+            <Button
+              variant="primary"
+              onClick={handleGoToGame}
+              disabled={isQuestionsLoading}
+            >
+              {isQuestionsLoading ? "Загрузка..." : "Начать\u00a0игру"}
             </Button>
             <Button variant="secondary" onClick={handleGoToInfo}>
               О&nbsp;розыгрыше
@@ -50,22 +74,7 @@ function Menu() {
               Роуминг с&nbsp;МТС
             </Button>
           </div>
-          {/* <img src={pres} alt="" className="menu__content_bottom_img" />
-          <div className="spacer"></div>
-          <h1 className="menu__content_bottom_title">
-            Все приключения позади теперь вы в розыгрыше!
-          </h1>
-          <p className="menu__content_bottom_subtitle">
-            Покажем победителей __ Августа
-          </p>
-          <div className="menu__content_bottom_buttons">
-            <Button variant="secondary" onClick={handleGoToInfo}>
-              О&nbsp;розыгрыше
-            </Button>
-            <Button variant="secondary2" onClick={handleOpenRoaming}>
-              Роуминг с&nbsp;МТС
-            </Button>
-          </div> */}
+
         </div>
       </div>
     </div>
