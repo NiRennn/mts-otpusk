@@ -10,12 +10,12 @@ type VariantsProps = {
 };
 
 function Variants({
-  currentQuestionIndex,
-  setCurrentQuestionIndex,
+  // currentQuestionIndex,
+  // setCurrentQuestionIndex,
 }: VariantsProps) {
-  const handleAnswerClick = () => {
-    setCurrentQuestionIndex((prev) => prev + 1);
-  };
+  // const handleAnswerClick = () => {
+  //   setCurrentQuestionIndex((prev) => prev + 1);
+  // };
   return (
     <div className="variants__container">
       <div className="variants">

@@ -3,7 +3,7 @@ import "./Menu.scss";
 import top from "../../assets/icons/load-top.svg";
 import mtsLogo from "../../assets/icons/mts-logo.svg";
 import Button from "../Button/Button";
-import pres from "../../assets/icons/st-3.png";
+// import pres from "../../assets/icons/st-3.png";
 
 import { useNavigate } from "react-router-dom";
 import appRoutes from "../../routes/routes";

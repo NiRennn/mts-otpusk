@@ -1,15 +1,15 @@
 import './Game.scss'
 import Variants from "../Variants/Variants";
 import {
-  type AnimationEvent,
-  useEffect,
-  useMemo,
-  useRef,
+  // type AnimationEvent,
+  // useEffect,
+  // useMemo,
+  // useRef,
   useState,
 } from "react";
-import { useAppStore } from "../../store/appStore";
-import { useNavigate } from "react-router-dom";
-import appRoutes from "../../routes/routes";
+// import { useAppStore } from "../../store/appStore";
+// import { useNavigate } from "react-router-dom";
+// import appRoutes from "../../routes/routes";
 import Pagination from '../Pagination/Pagination';
 
 const QUESTIONS_COUNT = 10;

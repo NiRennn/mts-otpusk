@@ -14,10 +14,10 @@ import Final from "./components/Final/Final";
 function AppRoutes() {
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   window.Telegram.WebApp.ready();
-  //   navigate(appRoutes.LOADDING, { replace: true });
-  // }, []);
+  useEffect(() => {
+    window.Telegram.WebApp.ready();
+    navigate(appRoutes.LOADDING, { replace: true });
+  }, []);
 
   return (
     <div className="App">
