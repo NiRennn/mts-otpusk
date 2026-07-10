@@ -107,6 +107,7 @@ function Loading() {
       return;
     }
 
+    
     console.log(initData);
 
     try {
