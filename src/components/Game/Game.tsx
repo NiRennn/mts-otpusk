@@ -2,6 +2,8 @@ import "./Game.scss";
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import type { CSSProperties } from "react";
+
 
 import Variants from "../Variants/Variants";
 import Pagination from "../Pagination/Pagination";
@@ -10,10 +12,22 @@ import { useAppStore } from "../../store/appStore";
 import appRoutes from "../../routes/routes";
 import { saveQuiz } from "../../api/quiz";
 
-function Game() {
-  const navigate = useNavigate();
+const API_ORIGIN = "https://movie.brandservicebot24.ru";
 
-  const user = useAppStore((state) => state.user);
+const getBackgroundImageUrl = (image?: string | null) => {
+  if (!image) return "";
+
+  if (image.startsWith("http://") || image.startsWith("https://")) {
+    return image;
+  }
+
+  return `${API_ORIGIN}${image.startsWith("/") ? "" : "/"}${image}`;
+};
+
+function Game() {
+  const navigate = useNavigate(); 
+
+  const user = useAppStore((state) => state.user); 
   const questions = useAppStore((state) => state.questions);
   const selectedAnswersByQuestion = useAppStore(
     (state) => state.selectedAnswersByQuestion,
@@ -35,6 +49,14 @@ function Game() {
   if (!currentQuestion) {
     return null;
   }
+
+  const backgroundImageUrl = getBackgroundImageUrl(currentQuestion.image);
+
+    const gameStyle = {
+    "--game-bg": backgroundImageUrl
+      ? `url("${backgroundImageUrl}")`
+      : "none",
+  } as CSSProperties;
 
   const handleAnswerClick = async (answerId: number) => {
     if (isSavingQuiz) return;
@@ -87,7 +109,7 @@ function Game() {
   };
 
   return (
-    <div className="game">
+    <div className="game" style={gameStyle}>
       <Pagination current={currentQuestionIndex} total={totalQuestions} />
 
       <Variants

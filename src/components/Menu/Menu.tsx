@@ -10,7 +10,7 @@ import Button from "../Button/Button";
 import appRoutes from "../../routes/routes";
 import { getQuestions } from "../../api/questions";
 
-const CHANNEL_URL = "https://t.me/+X_Y-xncYDCAzZTJi";
+const CHANNEL_URL = "https://t.me/mtsofficial";
 const QUESTIONS_LIMIT = 3;
 
 function Menu() {

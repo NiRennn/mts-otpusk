@@ -9,10 +9,7 @@
   background-position: center;
   background-size: cover;
 
-  padding: calc(
-      var(--tg-content-safe-area-inset-top, 0px) +
-        var(--tg-safe-area-inset-top, 0px) + 12px
-    )
+  padding: 0
     calc(
       var(--tg-content-safe-area-inset-right, 0px) +
         var(--tg-safe-area-inset-right, 0px)
@@ -37,6 +34,10 @@
   padding-bottom: calc(
     var(--tg-content-safe-area-inset-bottom, 0px) +
       var(--tg-safe-area-inset-bottom, 0px) + 33px
+  );
+  padding-top: calc(
+    var(--tg-content-safe-area-inset-top, 0px) +
+      var(--tg-safe-area-inset-top, 0px) + 12px
   );
 }
 
@@ -118,15 +119,15 @@
 }
 
 .img-wrap {
-    width: 93px;
-    padding-right: 8px;
+  width: 93px;
+  padding-right: 8px;
 }
 
 .wh {
   background-color: #ffffff;
   border: 1px solid #f2f6fd;
-//   padding: 25px 21px;
-//   gap: 12px;
+  //   padding: 25px 21px;
+  //   gap: 12px;
 }
 
 .wh-img {
@@ -147,10 +148,10 @@
 
 .ye {
   background-color: #f8fe8b;
-//   padding-left: 8px;
+  //   padding-left: 8px;
   padding-top: 25px;
   padding-bottom: 25px;
-//   gap: 8px;
+  //   gap: 8px;
 }
 
 .ye-img {
@@ -444,4 +445,103 @@
 
   //   padding: 0 13px;
   margin-top: 17px;
+}
+
+@media (max-height: 700px) {
+  .info {
+    padding: 0
+      calc(
+        var(--tg-content-safe-area-inset-right, 0px) +
+          var(--tg-safe-area-inset-right, 0px)
+      )
+      0
+      calc(
+        var(--tg-content-safe-area-inset-left, 0px) +
+          var(--tg-safe-area-inset-left, 0px)
+      );
+  }
+
+  .info__scroll {
+    padding-bottom: calc(
+      var(--tg-content-safe-area-inset-bottom, 0px) +
+        var(--tg-safe-area-inset-bottom, 0px) + 33px
+    );
+  }
+
+  .info__scroll_top {
+    padding: 0 10px;
+  }
+
+  .info__scroll_top_top {
+    width: 100%;
+    max-width: 155px;
+  }
+
+  .info__scroll_top_logo {
+    width: 45px;
+    height: 45px;
+  }
+
+  .info__faq {
+    padding: 0 10px;
+  }
+
+  .info__scroll_mid_header {
+    font-size: 26px;
+    line-height: 28px;
+    margin-bottom: 27px;
+  }
+
+  .info__scroll_mid_steps {
+    padding: 12px 16px 29px;
+    gap: 12px;
+  }
+
+  .info__scroll_mid_step {
+    height: 111px;
+  }
+
+  .info__scroll_mid_step_text {
+    font-size: 16px;
+    line-height: 18px;
+    padding-right: 15px;
+  }
+
+  .info__scroll_mid_prizes_header {
+    font-size: 16px;
+    line-height: 18px;
+    margin-bottom: 15px;
+  }
+
+  .info__scroll_mid_prizes_slider {
+    scroll-padding-left: 10px;
+  }
+
+  .info__scroll_mid_prizes_main_cont {
+    width: 100%;
+    padding: 0 10px;
+  }
+
+  .info__scroll_mid_prizes_main_left {
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    gap: 15px;
+  }
+
+  .info__scroll_mid_prizes_main_left_top {
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+  .info__scroll_mid_prizes_main_left_bot {
+    font-size: 18px;
+    line-height: 18px;
+  }
+
+  .info__faq_title {
+    font-size: 24px;
+    line-height: 26px;
+    margin-bottom: 22px;
+  }
 }
