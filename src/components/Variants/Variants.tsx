@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import "./Variants.scss";
 
 import an1 from "../../assets/icons/an1.png";
@@ -21,9 +22,17 @@ function Variants({
   onAnswerClick,
   disabled = false,
 }: VariantsProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = 0;
+    }
+  }, [question.id]);
+
   return (
     <div className="variants__container">
-      <div className="variants">
+      <div className="variants" ref={containerRef}>
         <h1 className="variants__question">{question.text}</h1>
 
         <div className="variants__answers">

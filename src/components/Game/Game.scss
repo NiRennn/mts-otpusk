@@ -9,7 +9,7 @@
   overflow: hidden;
 
   background-image: var(--game-bg);
-    background-size: cover;
-  background-position: center;
+  background-size: 100% auto;
+  background-position: top center;
   background-repeat: no-repeat;
 }
