@@ -1,7 +1,9 @@
 .variants__container {
   width: 100%;
-  // height: 60%;
   height: auto;
+  max-height: calc((100vh - var(--tg-content-safe-area-inset-top, 0px) - var(--tg-safe-area-inset-top, 0px)) * 0.5);
+  display: flex;
+  flex-direction: column;
 
   padding-top: 10px;
   border-radius: 46px 46px 0 0;
@@ -11,6 +13,8 @@
 .variants {
   width: 100%;
   height: auto;
+  max-height: 100%;
+  overflow-y: auto;
   border-radius: 46px 46px 0 0;
   padding-bottom: calc(
     var(--tg-content-safe-area-inset-bottom, 0px) +
@@ -20,7 +24,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   background-color: #ecf1fc;
 }
 
@@ -70,65 +74,39 @@
   font-family: "MTSWideRegular";
   font-size: 14px;
   line-height: 18px;
-
 }
-
 
 @media (max-height: 700px) {
-  .variants__container {
-  width: 100%;
-  height: auto;
-  // max-height: 65%;
-  padding-top: 10px;
-  border-radius: 46px 46px 0 0;
-  background-color: #f8fe8b;
-}
+  .variants {
+    padding-bottom: calc(
+      var(--tg-content-safe-area-inset-bottom, 0px) +
+        var(--tg-safe-area-inset-bottom, 0px) + 20px
+    );
+    padding-top: 20px;
+  }
 
-.variants {
-  width: 100%;
-  height: auto;
-  border-radius: 46px 46px 0 0;
-  padding-bottom: calc(
-    var(--tg-content-safe-area-inset-bottom, 0px) +
-      var(--tg-safe-area-inset-bottom, 0px) + 20px
-  );
-  padding-top: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #ecf1fc;
-}
+  .variants__question {
+    font-size: 16px;
+    line-height: 18px;
+    margin-bottom: 15px;
+  }
 
-.variants__question {
-  font-size: 16px;
-  line-height: 18px;
-  margin-bottom: 15px;
-  padding: 0 24px;
-}
+  .variants__answers {
+    gap: 6px;
+  }
 
-.variants__answers {
-  width: 100%;
-  padding: 0 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
+  .variants__answer {
+    padding: 8px 8px 8px 8px;
+    gap: 5px;
+  }
 
+  .variants__answer_img {
+    width: 45px;
+    height: 45px;
+  }
 
-.variants__answer {
-  padding: 8px 8px 8px 8px;
-  gap: 5px;
-}
-
-.variants__answer_img {
-  width: 45px;
-  height: 45px;
-}
-
-.variants__answer_text {
-  font-family: "MTSWideRegular";
-  font-size: 12px;
-  line-height: 16px;
-
-}
+  .variants__answer_text {
+    font-size: 12px;
+    line-height: 16px;
+  }
 }

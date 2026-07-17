@@ -4,10 +4,16 @@ import { getTelegramAuthHeaders } from "./telegramAuth";
 
 const API_ORIGIN = "https://movie.brandservicebot24.ru";
 
-export const getQuestions = async (limit = 3): Promise<QuestionDto[]> => {
-  const url = new URL(`${API_ORIGIN}/api/get_questions/`);
+const formatImageUrl = (url: string | null): string | null => {
+  if (!url) return null;
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url;
+  }
+  return `${API_ORIGIN}${url.startsWith("/") ? "" : "/"}${url}`;
+};
 
-  url.searchParams.set("limit", String(limit));
+export const getQuestions = async (): Promise<QuestionDto[]> => {
+  const url = new URL(`${API_ORIGIN}/api/get_questions/`);
 
   const response = await fetch(url.toString(), {
     method: "GET",
@@ -22,7 +28,16 @@ export const getQuestions = async (limit = 3): Promise<QuestionDto[]> => {
 
   const data: QuestionDto[] = await response.json();
 
-  const questions = Array.isArray(data) ? data : [];
+  const rawQuestions = Array.isArray(data) ? data : [];
+
+  const questions = rawQuestions.map((q) => ({
+    ...q,
+    image: formatImageUrl(q.image),
+    answers: q.answers.map((a) => ({
+      ...a,
+      logo: formatImageUrl(a.logo),
+    })),
+  }));
 
   useAppStore.getState().setQuestions(questions);
 

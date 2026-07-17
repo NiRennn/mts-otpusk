@@ -22,6 +22,7 @@ export type WinnerDto = {
 export type ResultDto = {
   genre: string;
   genre_display: string;
+  title: string;
   text: string;
   image: string | null;
 };

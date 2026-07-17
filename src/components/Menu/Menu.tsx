@@ -11,7 +11,6 @@ import appRoutes from "../../routes/routes";
 import { getQuestions } from "../../api/questions";
 
 const CHANNEL_URL = "https://t.me/mtsofficial";
-const QUESTIONS_LIMIT = 3;
 
 function Menu() {
   const navigate = useNavigate();
@@ -25,7 +24,7 @@ function Menu() {
     setIsQuestionsLoading(true);
 
     try {
-      const questions = await getQuestions(QUESTIONS_LIMIT);
+      const questions = await getQuestions();
 
       if (!questions.length) {
         console.error("Questions list is empty");
