@@ -9,6 +9,11 @@
   background-position: center;
   background-size: cover;
   overflow: hidden;
+
+  &.final--dynamic {
+    background-position: top;
+    background-size: 100% auto;
+  }
 }
 
 .final__image_spacer {
@@ -18,7 +23,7 @@
 
 .final__card {
   width: 100%;
-  max-height: calc((100vh - var(--tg-content-safe-area-inset-top, 0px) - var(--tg-safe-area-inset-top, 0px)) * 0.5);
+  max-height: calc((100vh - var(--tg-content-safe-area-inset-top, 0px) - var(--tg-safe-area-inset-top, 0px)) * 0.55);
   background-color: #ecf1fc;
   border-radius: 46px 46px 0 0;
   padding-top: 30px;
