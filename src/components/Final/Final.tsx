@@ -6,7 +6,6 @@ import appRoutes from "../../routes/routes";
 import { useAppStore } from "../../store/appStore";
 import { getQuestions } from "../../api/questions";
 
-const CHANNEL_URL = "https://t.me/mtsofficial";
 const API_ORIGIN = "https://movie.brandservicebot24.ru";
 
 const getBackgroundImageUrl = (image?: string | null) => {
@@ -24,6 +23,7 @@ function Final() {
   const [isQuestionsLoading, setIsQuestionsLoading] = useState(false);
 
   const resetTestProgress = useAppStore((state) => state.resetTestProgress);
+  const setIsRoamingPopupOpen = useAppStore((state) => state.setIsRoamingPopupOpen);
 
   const handleRestart = async () => {
     setIsQuestionsLoading(true);
@@ -50,14 +50,7 @@ function Final() {
   };
 
   const handleOpenRoaming = () => {
-    const tg = (window as any)?.Telegram?.WebApp;
-
-    if (tg?.openTelegramLink) {
-      tg.openTelegramLink(CHANNEL_URL);
-      return;
-    }
-
-    window.open(CHANNEL_URL, "_blank", "noopener,noreferrer");
+    setIsRoamingPopupOpen(true);
   };
 
   const result = useAppStore((state) => state.finalResponse || state.lastResult);

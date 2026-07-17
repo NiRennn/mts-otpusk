@@ -9,16 +9,7 @@
   background-position: center;
   background-size: cover;
 
-  padding: 0
-    calc(
-      var(--tg-content-safe-area-inset-right, 0px) +
-        var(--tg-safe-area-inset-right, 0px)
-    )
-    0
-    calc(
-      var(--tg-content-safe-area-inset-left, 0px) +
-        var(--tg-safe-area-inset-left, 0px)
-    );
+  padding: 0 calc(var(--tg-content-safe-area-inset-right, 0px) + var(--tg-safe-area-inset-right, 0px)) 0 calc(var(--tg-content-safe-area-inset-left, 0px) + var(--tg-safe-area-inset-left, 0px));
 }
 
 .info__scroll {
@@ -31,14 +22,8 @@
 
   scrollbar-width: none;
   -ms-overflow-style: none;
-  padding-bottom: calc(
-    var(--tg-content-safe-area-inset-bottom, 0px) +
-      var(--tg-safe-area-inset-bottom, 0px) + 33px
-  );
-  padding-top: calc(
-    var(--tg-content-safe-area-inset-top, 0px) +
-      var(--tg-safe-area-inset-top, 0px) + 12px
-  );
+  padding-bottom: calc(var(--tg-content-safe-area-inset-bottom, 0px) + var(--tg-safe-area-inset-bottom, 0px) + 33px);
+  padding-top: calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 12px);
 }
 
 .info__scroll::-webkit-scrollbar {
@@ -198,12 +183,15 @@
 .info__scroll_mid_prizes_slider {
   width: 100%;
   display: flex;
+  align-items: flex-end;
   gap: 10px;
 
   overflow-x: auto;
   overflow-y: hidden;
-
-  padding: 0 15px;
+z-index: 2;
+position: relative;
+  padding: 60px 15px 0;
+  margin-top: -60px;
 
   scroll-snap-type: x mandatory;
   scroll-padding-left: 15px;
@@ -217,7 +205,7 @@
 }
 
 .slider_item {
-  width: 150px;
+  width: 100%;
   min-width: 150px;
   //   height: 186px;
 
@@ -232,6 +220,10 @@
   scroll-snap-align: start;
   overflow: hidden;
   //   justify-content: center;
+
+  &--chemodan {
+    overflow: visible;
+  }
 }
 
 .slider_item_img {
@@ -243,6 +235,12 @@
   object-position: center;
 
   //   margin-bottom: 10px;
+
+  &--chemodan {
+    width: 149px;
+    margin-top: -60px;
+    height: auto;
+  }
 }
 
 .slider_item_name {
@@ -267,6 +265,7 @@
 .info__scroll_mid_prizes_main_cont {
   width: 100%;
   padding: 0 15px;
+  margin-bottom: 20px;
 }
 
 .info__scroll_mid_prizes_main {
@@ -278,15 +277,19 @@
   justify-content: space-between;
   overflow: hidden;
   margin-top: 16px;
+  position: relative;
 }
 
 .info__scroll_mid_prizes_main_left {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 50px;
   padding-left: 25px;
   padding-top: 25px;
   padding-bottom: 25px;
+  width: 55%;
+  z-index: 1;
 }
 
 .info__scroll_mid_prizes_main_left_top {
@@ -305,7 +308,10 @@
 }
 
 .info__scroll_mid_prizes_main_img {
-  width: 50%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 232px;
 }
 
 .info__faq_title {
@@ -449,23 +455,11 @@
 
 @media (max-height: 700px) {
   .info {
-    padding: 0
-      calc(
-        var(--tg-content-safe-area-inset-right, 0px) +
-          var(--tg-safe-area-inset-right, 0px)
-      )
-      0
-      calc(
-        var(--tg-content-safe-area-inset-left, 0px) +
-          var(--tg-safe-area-inset-left, 0px)
-      );
+    padding: 0 calc(var(--tg-content-safe-area-inset-right, 0px) + var(--tg-safe-area-inset-right, 0px)) 0 calc(var(--tg-content-safe-area-inset-left, 0px) + var(--tg-safe-area-inset-left, 0px));
   }
 
   .info__scroll {
-    padding-bottom: calc(
-      var(--tg-content-safe-area-inset-bottom, 0px) +
-        var(--tg-safe-area-inset-bottom, 0px) + 33px
-    );
+    padding-bottom: calc(var(--tg-content-safe-area-inset-bottom, 0px) + var(--tg-safe-area-inset-bottom, 0px) + 33px);
   }
 
   .info__scroll_top {
@@ -517,6 +511,7 @@
     scroll-padding-left: 10px;
   }
 
+
   .info__scroll_mid_prizes_main_cont {
     width: 100%;
     padding: 0 10px;
@@ -526,7 +521,7 @@
     padding-left: 20px;
     padding-top: 20px;
     padding-bottom: 20px;
-    gap: 15px;
+    gap: 50px;
   }
 
   .info__scroll_mid_prizes_main_left_top {

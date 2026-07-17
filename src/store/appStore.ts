@@ -79,6 +79,7 @@ type AppStateData = {
 
   isHydrated: boolean;
   selectedAnswersByQuestion: Record<number, number>;
+  isRoamingPopupOpen: boolean;
 };
 
 type AppStateActions = {
@@ -101,6 +102,7 @@ type AppStateActions = {
   resetTestProgress: () => void;
 
   reset: () => void;
+  setIsRoamingPopupOpen: (isOpen: boolean) => void;
 };
 
 type AppState = AppStateData & AppStateActions;
@@ -116,6 +118,7 @@ const initialState: AppStateData = {
 
   isHydrated: false,
   selectedAnswersByQuestion: {},
+  isRoamingPopupOpen: false,
 };
 
 export const useAppStore = create<AppState>((set) => ({
@@ -230,4 +233,5 @@ export const useAppStore = create<AppState>((set) => ({
     }),
 
   reset: () => set(initialState),
+  setIsRoamingPopupOpen: (isOpen) => set({ isRoamingPopupOpen: isOpen }),
 }));

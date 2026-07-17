@@ -10,6 +10,7 @@ import Info from "./components/Info/Info";
 import Game from "./components/Game/Game";
 import End from "./components/End/End";
 import Final from "./components/Final/Final";
+import RoamingPopup from "./components/RoamingPopup/RoamingPopup";
 
 function AppRoutes() {
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ function AppRoutes() {
         <Route path={appRoutes.FINAL} element={<Final />} />
         <Route path={appRoutes.END} element={<End />} />
       </Routes>
+      <RoamingPopup />
     </div>
   );
 }

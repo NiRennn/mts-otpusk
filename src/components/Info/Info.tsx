@@ -4,14 +4,14 @@ import { useNavigate } from "react-router-dom";
 import appRoutes from "../../routes/routes";
 
 import Button from "../Button/Button";
+import { useAppStore } from "../../store/appStore";
 
 import top from "../../assets/icons/load-top.svg";
 import mtsLogo from "../../assets/icons/mts-logo.svg";
 import bags from "../../assets/images/info-bags.png";
 
-import p1 from "../../assets/images/p-jacket.jpg";
-import p2 from "../../assets/images/p-airpods.jpg";
-import p3 from "../../assets/images/p-iphone.jpg";
+import p1 from "../../assets/images/cardholder.png";
+import p3 from "../../assets/images/chemodan.png";
 import pmain from "../../assets/images/p-main.jpg";
 
 import st1 from "../../assets/icons/st-1.png";
@@ -28,17 +28,17 @@ const faqItems: FaqItem[] = [
   {
     id: 1,
     title: "Как\u00A0принять участие в\u00A0розыгрыше?",
-    text: "Подпишись на\u00A0Телеграмм-канал РИИЛ, найди в\u00A0игре 5\u00A0катушек плёнки и\u00A0жди результатов!",
+    text: "Подпишись на\u00A0Телеграмм-канал Движитал, пройди тест и\u00A0поделись скриншотом в\u00A0комментариях конкурсной публикации и\u00A0жди результатов!",
   },
   {
     id: 2,
-    title: "Кто организатор розыгрыша",
-    text: "Если не\u00A0веришь в\u00A0удачу, можешь купить плёнку в\u00A0фотолаборатории\u00A0ЛУЧ. Проявка и\u00A0сканирование будет бесплатным!",
+    title: "Как получить приз?",
+    text: "После объявления результатов победителю необходимо самостоятельно написать нам в\u00A0официальное сообщество МТС ВКонтакте.\n\nВ\u00A0сообщении указать свой никнейм и\u00A0выигранный приз, а\u00A0также предоставить необходимые данные в\u00A0соответствии с\u00A0правилами кампании",
   },
   {
     id: 3,
     title: "Что можно выиграть?",
-    text: "Мы\u00A0прокачали классическую катушку Lucky Color C200 на\u00A036\u00A0кадров, добавив узоры и\u00A0шанс стать частью кампании.\n\nПриходи в\u00A0фотолабораторию Луч, бесплатно сканируй плёнку и, возможно, именно твои кадры появятся в\u00A0наружной рекламе МТС\u00A0РИИЛ.",
+    text: "Среди тех, кто поделится своим результатом в\u00A0комментариях, разыграем:\n\n\u2014\u00A0Сертификат на\u00A0поездку от\u00A0OneTwoTrip номиналом 100\u00A0000\u00A0рублей;\n\u2014\u00A0Стильные чемоданы;\n\u2014\u00A0Картхолдеры из\u00A0натуральной кожи.",
   },
 ];
 
@@ -46,26 +46,38 @@ const prizes = [
   {
     id: 1,
     image: p1,
-    name: "Фирменный жилет",
-    count: "12 шт",
+    name: "Фирменный кардхолдер МТС",
+    count: "25 шт",
+    className: "cardholder",
   },
   {
     id: 2,
     image: p3,
-    name: "iPhone 17 Pro Max",
-    count: "1 шт",
-  },
-  {
-    id: 3,
-    image: p2,
-    name: "AirPods 4",
-    count: "5 шт",
+    name: "Чемодан American Tourister",
+    count: "3 шт",
+    className: "chemodan",
   },
 ];
 
 function Info() {
   const [openedFaqId, setOpenedFaqId] = useState<number>(1);
   const navigate = useNavigate();
+  const setIsRoamingPopupOpen = useAppStore((state) => state.setIsRoamingPopupOpen);
+
+  const handleOpenRoaming = () => {
+    setIsRoamingPopupOpen(true);
+  };
+
+  const handleOpenChannel = () => {
+    const channelUrl = "https://t.me/dvizhitall";
+    const tg = (window as any)?.Telegram?.WebApp;
+
+    if (tg?.openTelegramLink) {
+      tg.openTelegramLink(channelUrl);
+    } else {
+      window.open(channelUrl, "_blank", "noopener,noreferrer");
+    }
+  };
 
   const handleGoToMenu = () => {
     navigate(appRoutes.MENU);
@@ -115,7 +127,7 @@ function Info() {
                   <img src={st1} alt="" className="wh-img" />
                 </div>
                 <span className="info__scroll_mid_step_text">
-                  Подпишись на&nbsp;канал Движитл
+                  Подпишись на&nbsp;канал Движитал
                 </span>
               </div>
               <div className="info__scroll_mid_step bl">
@@ -146,18 +158,6 @@ function Info() {
             <h2 className="info__scroll_mid_prizes_header">
               Что можно выиграть
             </h2>
-
-            <div className="info__scroll_mid_prizes_slider">
-              {prizes.map((prize) => (
-                <div className="slider_item" key={prize.id}>
-                  <img src={prize.image} alt="" className="slider_item_img" />
-
-                  <span className="slider_item_name">{prize.name}</span>
-
-                  <span className="slider_item_count">{prize.count}</span>
-                </div>
-              ))}
-            </div>
             <div className="info__scroll_mid_prizes_main_cont">
               <div className="info__scroll_mid_prizes_main">
                 <div className="info__scroll_mid_prizes_main_left">
@@ -165,7 +165,7 @@ function Info() {
                     Главный приз
                   </span>
                   <span className="info__scroll_mid_prizes_main_left_bot">
-                    Сертификат на&nbsp;200&nbsp;000&nbsp;₽ в&nbsp;отпуск!
+                    Сертификат на&nbsp;100&nbsp;000&nbsp;₽ в&nbsp;отпуск!
                   </span>
                 </div>
                 <img
@@ -174,6 +174,28 @@ function Info() {
                   className="info__scroll_mid_prizes_main_img"
                 />
               </div>
+            </div>
+            <div className="info__scroll_mid_prizes_slider">
+              {prizes.map((prize) => (
+                <div
+                  className={`slider_item ${
+                    prize.className ? `slider_item--${prize.className}` : ""
+                  }`}
+                  key={prize.id}
+                >
+                  <img
+                    src={prize.image}
+                    alt=""
+                    className={`slider_item_img ${
+                      prize.className ? `slider_item_img--${prize.className}` : ""
+                    }`}
+                  />
+
+                  <span className="slider_item_name">{prize.name}</span>
+
+                  <span className="slider_item_count">{prize.count}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -188,9 +210,8 @@ function Info() {
               return (
                 <div
                   key={item.id}
-                  className={`info__faq_item ${
-                    isOpened ? "info__faq_item--opened" : ""
-                  }`}
+                  className={`info__faq_item ${isOpened ? "info__faq_item--opened" : ""
+                    }`}
                 >
                   <button
                     type="button"
@@ -220,8 +241,12 @@ function Info() {
           </div>
 
           <div className="info__buttons">
-            <Button variant="primary">Роуминг от МТС</Button>
-            <Button variant="secondary2">Канал Движитл</Button>
+            <Button variant="primary" onClick={handleOpenRoaming}>
+              Роуминг от МТС
+            </Button>
+            <Button variant="secondary2" onClick={handleOpenChannel}>
+              Канал Движитал
+            </Button>
           </div>
         </div>
       </div>

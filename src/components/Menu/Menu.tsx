@@ -9,11 +9,11 @@ import mtsLogo from "../../assets/icons/mts-logo.svg";
 import Button from "../Button/Button";
 import appRoutes from "../../routes/routes";
 import { getQuestions } from "../../api/questions";
-
-const CHANNEL_URL = "https://t.me/mtsofficial";
+import { useAppStore } from "../../store/appStore";
 
 function Menu() {
   const navigate = useNavigate();
+  const setIsRoamingPopupOpen = useAppStore((state) => state.setIsRoamingPopupOpen);
 
   const [isQuestionsLoading, setIsQuestionsLoading] = useState(false);
 
@@ -40,14 +40,7 @@ function Menu() {
   };
 
   const handleOpenRoaming = () => {
-    const tg = (window as any)?.Telegram?.WebApp;
-
-    if (tg?.openTelegramLink) {
-      tg.openTelegramLink(CHANNEL_URL);
-      return;
-    }
-
-    window.open(CHANNEL_URL, "_blank", "noopener,noreferrer");
+    setIsRoamingPopupOpen(true);
   };
 
   return (
