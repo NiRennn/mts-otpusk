@@ -1,5 +1,4 @@
 import { useState } from "react";
-import type { CSSProperties } from "react";
 import "./Final.scss";
 import Button from "../Button/Button";
 import { useNavigate } from "react-router-dom";
@@ -65,10 +64,6 @@ function Final() {
 
   const backgroundImageUrl = getBackgroundImageUrl(result?.image);
 
-  const finalStyle = backgroundImageUrl
-    ? { backgroundImage: `url("${backgroundImageUrl}")` } as CSSProperties
-    : undefined;
-
   const className = backgroundImageUrl ? "final final--dynamic" : "final";
 
   const genreDisplay = result?.genre_display || "Комедия";
@@ -76,14 +71,20 @@ function Final() {
   const text = result?.text || "Ты любишь веселье и отдых...";
 
   return (
-    <div className={className} style={finalStyle}>
+    <div className={className}>
+      {backgroundImageUrl && (
+        <div className="final__bg-container">
+          <img src={backgroundImageUrl} alt="" className="final__bg-image" />
+          <div className="final__bg-fade" />
+        </div>
+      )}
       <div className="final__image_spacer" />
 
       <div className="final__card">
         <div className="final__card_content">
           <span className="final__card_label">Ваш жанр отпуска</span>
           <h1 className="final__card_genre">{genreDisplay}</h1>
-          <h2 className="final__card_title">{title}</h2>
+          <h2 className="final__card_title">«{title}»</h2>
 
           <div className="final__card_desc">
             {text.split("\r\n").map((paragraph, index) => {

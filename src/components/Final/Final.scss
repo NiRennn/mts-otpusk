@@ -9,11 +9,37 @@
   background-position: center;
   background-size: cover;
   overflow: hidden;
+  position: relative;
 
   &.final--dynamic {
-    background-position: top;
-    background-size: 100% auto;
+    background-image: none;
   }
+}
+
+.final__bg-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.final__bg-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.final__bg-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background: linear-gradient(to bottom, rgba(189, 208, 245, 0), #bdd0f5);
+  margin-bottom: -1px;
 }
 
 .final__image_spacer {
