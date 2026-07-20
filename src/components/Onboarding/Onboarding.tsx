@@ -27,9 +27,18 @@ const CHANNEL_URL = "https://t.me/+X_Y-xncYDCAzZTJi";
 const onboardingSteps = [
   {
     image: ob,
-    title: "Разыгрываем путешествие за\u00A0победу в\u00A0игре!",
-    subtitle:
-      "Отпуск вдали от\u00A0дома это\u00A0не\u00A0всегда легко и\u00A0просто. Но\u00A0с\u00A0МТС он\u00A0точно станет легче! Отправляйся в\u00A0интерактивный отпуск и\u00A0решай возникшие проблемы!",
+    title: (
+      <>
+        Вы{"\u00A0"}когда‑нибудь задумывались, на{"\u00A0"}какой фильм похож ваш
+        идеальный отпуск: на{"\u00A0"}романтическую историю с{"\u00A0"}случайными
+        неслучайностями, драйвовый экшен с{"\u00A0"}незабываемыми приключениями
+        или остроумное расследование, где подозрительно буквально всё? 🎥
+        <br />
+        <br />
+        ✈️ Пройдите наш тест и{"\u00A0"}узнайте, какой жанр лучше всего отражает
+        ваш стиль путешествий, и{"\u00A0"}выиграйте призы!
+      </>
+    ),
   },
   {
     image: sub,
@@ -145,9 +154,17 @@ function Onboarding() {
 
         <div className="onboarding__content_bot">
           <div className="onboarding__content_bot_panel">
-            <h1 className="bot_panel_title">{currentStep.title}</h1>
+            <h1
+              className={`bot_panel_title ${
+                step === 0 ? "bot_panel_title--intro" : ""
+              }`}
+            >
+              {currentStep.title}
+            </h1>
 
-            <p className="bot_panel_subtitle">{currentStep.subtitle}</p>
+            {currentStep.subtitle && (
+              <p className="bot_panel_subtitle">{currentStep.subtitle}</p>
+            )}
 
             {step === 0 && (
               <Button

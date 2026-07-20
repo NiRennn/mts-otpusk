@@ -6,6 +6,7 @@
   //   align-items: center;
   //   justify-content: center; 
   overflow: hidden;
+  overflow-y: auto;
 
   padding: calc(
       var(--tg-content-safe-area-inset-top, 0px) +
@@ -94,6 +95,15 @@
   font-family: "MTSExtBold";
   font-weight: 700;
   margin-bottom: 11px;
+
+  &--intro {
+    font-family: "MTSWideRegular", sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    margin-bottom: 33px;
+  }
 }
 
 .bot_panel_subtitle {
@@ -299,6 +309,12 @@
     font-size: 20px;
     line-height: 22px;
     margin-bottom: 11px;
+
+    &--intro {
+      font-size: 15px;
+      line-height: 20px;
+      margin-bottom: 20px;
+    }
   }
 
   .bot_panel_subtitle {
