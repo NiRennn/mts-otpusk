@@ -22,7 +22,7 @@ type OnboardingLocationState = {
   initialStep?: OnboardingStep;
 };
 
-const CHANNEL_URL = "https://t.me/dvizhitall";
+const CHANNEL_URL = "https://t.me/+dp-S4hjQ6gZkM2Ni";
 
 const onboardingSteps = [
   {
