@@ -2,6 +2,7 @@ import "./RoamingPopup.scss";
 import { useAppStore } from "../../store/appStore";
 import Button from "../Button/Button";
 import crossIcon from "../../assets/icons/cross.svg";
+import telegramHanlder from "../../utils/helpers/openTelegramHandler";
 
 const CHANNEL_URL = "https://moskva.mts.ru/personal/mobilnaya-svyaz/rouming-rezhimy";
 
@@ -16,13 +17,7 @@ export default function RoamingPopup() {
   };
 
   const handleConnect = () => {
-    const tg = (window as any)?.Telegram?.WebApp;
-
-    if (tg?.openTelegramLink) {
-      tg.openTelegramLink(CHANNEL_URL);
-    } else {
-      window.open(CHANNEL_URL, "_blank", "noopener,noreferrer");
-    }
+    telegramHanlder(CHANNEL_URL)
   };
 
   return (
