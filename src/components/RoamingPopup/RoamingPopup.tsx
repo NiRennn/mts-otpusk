@@ -3,7 +3,7 @@ import { useAppStore } from "../../store/appStore";
 import Button from "../Button/Button";
 import crossIcon from "../../assets/icons/cross.svg";
 
-const CHANNEL_URL = "https://t.me/mtsofficial";
+const CHANNEL_URL = "https://moskva.mts.ru/personal/mobilnaya-svyaz/rouming-rezhimy";
 
 export default function RoamingPopup() {
   const isRoamingPopupOpen = useAppStore((state) => state.isRoamingPopupOpen);
