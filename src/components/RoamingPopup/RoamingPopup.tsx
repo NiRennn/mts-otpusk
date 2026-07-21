@@ -4,7 +4,7 @@ import Button from "../Button/Button";
 import crossIcon from "../../assets/icons/cross.svg";
 import telegramHanlder from "../../utils/helpers/openTelegramHandler";
 
-const CHANNEL_URL = "https://moskva.mts.ru/personal/mobilnaya-svyaz/rouming-rezhimy";
+const CHANNEL_URL = "https://c.mts.ru/uQ4e?af_r=https%3A%2F%2Fmts.ru%2Fpersonal%2Fmobilnaya-svyaz%2Frouming-rezhimy%3Futm_source%3Dtg%26utm_medium%3Dfix%26utm_campaign%3Dc_str_d_mrk_p_roaming_dt_q2-26_t_r_s_tg_r_rf_f_knopka-dm_a_all_kw_n_k_n_bl_b%26utm_content%3Dtg-chatbot-otpusk-kak-v-kino%26utm_term%3D__10002_&af_xp=custom&pid=tg&c=c_str_d_mrk_p_roaming_dt_q2-26_t_r_s_tg_r_rf_f_knopka-dm_a_all_kw_n_k_n_bl_b&af_dp=mymts%3A%2F%2Faction%2Fservice%3Falias%3Drouming-rezhimy&is_retargeting=true&af_reengagement_window=30d&af_adset=tg-chatbot-otpusk-kak-v-kino&af_ad=__10002_&af_sub1=fix";
 
 export default function RoamingPopup() {
   const isRoamingPopupOpen = useAppStore((state) => state.isRoamingPopupOpen);
