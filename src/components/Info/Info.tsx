@@ -69,7 +69,7 @@ function Info() {
   };
 
   const handleOpenChannel = () => {
-    const channelUrl = "https://t.me/dvizhitall";
+    const channelUrl = "https://t.me/dvizhitall/3402";
     const tg = (window as any)?.Telegram?.WebApp;
 
     if (tg?.openTelegramLink) {
